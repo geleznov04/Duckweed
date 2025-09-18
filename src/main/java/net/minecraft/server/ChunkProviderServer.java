@@ -58,6 +58,17 @@ public class ChunkProviderServer implements IChunkProvider {
         boolean newChunk = false;
         // CraftBukkit end
 
+        //Poseidon World border start
+        if (PoseidonConfig.getInstance().getConfigBoolean("world.settings.world-gen-border.enable", false)) {
+            int radiusInBlocks = PoseidonConfig.getInstance().getConfigInteger("world.settings.world-gen-border.radius");
+            int radiusInChunks = (radiusInBlocks >> 4) >> (this.world.worldProvider.c ? 3 : 0); // Check for nether dimension (WorldProvider.c: sleepDisabled)
+            int xAbs = Math.abs(i), zAbs = Math.abs(j);
+            if (radiusInChunks > 8 && (xAbs > radiusInChunks || zAbs > radiusInChunks)) {
+                chunk = this.emptyChunk;
+            }
+        }
+        //Poseidon World border end
+
         if (chunk == null) {
             chunk = this.loadChunk(i, j);
             if (chunk == null) {
