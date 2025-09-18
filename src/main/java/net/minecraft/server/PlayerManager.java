@@ -1,10 +1,16 @@
 package net.minecraft.server;
 
+import com.legacyminecraft.poseidon.PoseidonConfig;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 public class PlayerManager {
 
+    private final byte[] circularMask; //Poseidon Circular view shape
+    private final Set<ChunkCoordIntPair> prevChunksTmp = new HashSet<>(); //Poseidon Circular view shape
     public List managedPlayers = new ArrayList();
     private PlayerList b = new PlayerList();
     private List c = new ArrayList();
@@ -22,6 +28,22 @@ public class PlayerManager {
             this.f = j;
             this.server = minecraftserver;
             this.e = i;
+            //Poseidon Circular view-shape start
+            if (!PoseidonConfig.getInstance().getConfigBoolean("world.settings.circular-view-shape.enable", false)) {
+                this.circularMask = new byte[0];
+            } else {
+                int sideWidth = j + j + 1;
+                this.circularMask = new byte[sideWidth * sideWidth];
+                for (int x = 0; x < sideWidth; x++) {
+                    for (int y = 0; y < sideWidth; y++) {
+                        int a = x - j, b = y - j;
+                        if (a * a + b * b - sideWidth < j * j) {
+                            this.circularMask[sideWidth * x + y] = 1;
+                        }
+                    }
+                }
+            }
+            //Poseidon Circular view-shape end
         }
     }
 
@@ -70,10 +92,13 @@ public class PlayerManager {
         int i1 = 0;
         int j1 = 0;
 
-        this.a(i, j, true).a(entityplayer);
+//        this.a(i, j, true).a(entityplayer); //Poseidon Circular view-shape: Moved inside the if statement
 
         int k1;
 
+        //Poseidon Circular view-shape start
+        if (this.circularMask.length == 0) {
+        this.a(i, j, true).a(entityplayer);
         for (k1 = 1; k1 <= l * 2; ++k1) {
             for (int l1 = 0; l1 < 2; ++l1) {
                 int[] aint = this.g[k++ % 4];
@@ -93,6 +118,27 @@ public class PlayerManager {
             j1 += this.g[k][1];
             this.a(i + i1, j + j1, true).a(entityplayer);
         }
+        } else {
+            k1 = l + l + 1;
+
+            for (int vx = -l; vx <= l; vx++) {
+                for (int vz = -l; vz <= l; vz++) {
+                    int relX = vx + l, relZ = vz + l;
+                    if (this.circularMask[k1 * relX + relZ] == 0) {
+                        continue;
+                    }
+
+                    this.a(i + vx, j + vz, true).a(entityplayer);
+                }
+            }
+            List<ChunkCoordIntPair> chunksToSend = entityplayer.chunkCoordIntPairQueue;
+            chunksToSend.sort(new Comparator<ChunkCoordIntPair>() {
+                public int compare(ChunkCoordIntPair a, ChunkCoordIntPair b) {
+                    return Math.max(Math.abs(a.x - i), Math.abs(a.z - j)) - Math.max(Math.abs(b.x - i), Math.abs(b.z - j));
+                }
+            });
+        }
+        //Poseidon Circular view-shape end
 
         this.managedPlayers.add(entityplayer);
     }
@@ -135,6 +181,8 @@ public class PlayerManager {
             int j1 = j - l;
 
             if (i1 != 0 || j1 != 0) {
+                //Poseidon Circular view-shape start
+                if (this.circularMask.length == 0) {
                 for (int k1 = i - this.f; k1 <= i + this.f; ++k1) {
                     for (int l1 = j - this.f; l1 <= j + this.f; ++l1) {
                         if (!this.a(k1, l1, k, l)) {
@@ -150,7 +198,33 @@ public class PlayerManager {
                         }
                     }
                 }
+                } else {
+                    this.prevChunksTmp.clear();
+                    this.prevChunksTmp.addAll(entityplayer.playerChunkCoordIntPairs);
+                    int k1 = this.f + this.f + 1;
 
+                    for (int vx = -this.f; vx <= this.f; vx++) {
+                        for (int vz = -this.f; vz <= this.f; vz++) {
+                            int relX = vx + this.f, relZ = vz + this.f;
+                            if (this.circularMask[k1 * relX + relZ] == 0) {
+                                continue;
+                            }
+
+                            if (!this.prevChunksTmp.remove(new ChunkCoordIntPair(i + vx, j + vz))) {
+                                this.a(i + vx, j + vz, true).a(entityplayer);
+                            }
+                        }
+                    }
+
+                    for (ChunkCoordIntPair pair : this.prevChunksTmp) {
+                        PlayerInstance playerinstance = this.a(pair.x, pair.z, false);
+
+                        if (playerinstance != null) {
+                            playerinstance.b(entityplayer);
+                        }
+                    }
+                    this.prevChunksTmp.clear();
+                }
                 entityplayer.d = entityplayer.locX;
                 entityplayer.e = entityplayer.locZ;
 
