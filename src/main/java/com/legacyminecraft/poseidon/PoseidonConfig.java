@@ -174,10 +174,12 @@ public class PoseidonConfig extends Configuration {
 
         generateConfigOption("world.settings.circular-view-shape.enable", false);
         generateConfigOption("world.settings.circular-view-shape.info", "This setting changes the shape of the terrain view sent to the player.");
-
         generateConfigOption("world.settings.world-gen-border.enable", false);
         generateConfigOption("world.settings.world-gen-border.radius", 32_000_000);
         generateConfigOption("world.settings.world-gen-border.info", "This setting enables a border for the world generator - after the specified radius, chunks are not generated or saved. The value is specified in blocks.");
+        generateConfigOption("world.settings.ores-seed.enable", false);
+        generateConfigOption("world.settings.ores-seed.value", "");
+        generateConfigOption("world.settings.ores-seed.info", "This setting allows you to configure the seed for the ores generation.");
         //generateConfigOption("world-settings.eject-from-vehicle-on-teleport.enabled", true);
         //generateConfigOption("world-settings.eject-from-vehicle-on-teleport.info", "Eject the player from a boat or minecart before teleporting them preventing cross world coordinate exploits.");
 
