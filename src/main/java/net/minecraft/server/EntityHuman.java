@@ -530,6 +530,15 @@ public abstract class EntityHuman extends EntityLiving {
         this.inventory.setItem(this.inventory.itemInHandIndex, (ItemStack) null);
     }
 
+    // Tsunami start
+    public void syncHeldItem() {
+        Slot slot = this.activeContainer.a(this.inventory, this.inventory.itemInHandIndex);
+        if (this instanceof EntityPlayer) {
+            ((EntityPlayer) this).netServerHandler.sendPacket(new Packet103SetSlot(this.activeContainer.windowId, slot.a, this.inventory.getItemInHand()));
+        }
+    }
+    // Tsunami end
+
     public double I() {
         return (double) (this.height - 0.5F);
     }
@@ -569,6 +578,7 @@ public abstract class EntityHuman extends EntityLiving {
             double d2 = entity.motZ;
             
             if (!entity.damageEntity(this, i)) {
+                this.syncHeldItem(); // Tsunami
                 return;
             }
             
@@ -605,6 +615,8 @@ public abstract class EntityHuman extends EntityLiving {
                 if (itemstack.count == 0) {
                     itemstack.a(this);
                     this.H();
+                } else {
+                    this.syncHeldItem(); // Tsunami
                 }
             }
 
