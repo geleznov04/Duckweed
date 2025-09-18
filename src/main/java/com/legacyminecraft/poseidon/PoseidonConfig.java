@@ -172,6 +172,8 @@ public class PoseidonConfig extends Configuration {
         generateConfigOption("world.settings.mob-spawner-area-limit.info",
                 "This setting controls the maximum number of entities of a mob spawner type that can exist within the defined chunk radius around a mob spawner. If the number of entities exceeds this limit, the spawner will stop spawning additional entities of that type. This is useful to stop the extreme lag that can be caused by mob spawners.");
 
+        generateConfigOption("world.settings.circular-view-shape.enable", false);
+        generateConfigOption("world.settings.circular-view-shape.info", "This setting changes the shape of the terrain view sent to the player.");
 
         //generateConfigOption("world-settings.eject-from-vehicle-on-teleport.enabled", true);
         //generateConfigOption("world-settings.eject-from-vehicle-on-teleport.info", "Eject the player from a boat or minecart before teleporting them preventing cross world coordinate exploits.");
