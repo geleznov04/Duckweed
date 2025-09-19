@@ -175,6 +175,9 @@ public class PoseidonConfig extends Configuration {
         generateConfigOption("world.settings.ores-seed.enable", false);
         generateConfigOption("world.settings.ores-seed.value", "");
         generateConfigOption("world.settings.ores-seed.info", "This setting allows you to configure the seed for the ores generation.");
+        generateConfigOption("world.settings.caves-seed.enable", false);
+        generateConfigOption("world.settings.caves-seed.value", "");
+        generateConfigOption("world.settings.caves-seed.info", "This setting allows you to configure the seed for the caves generation.");
 
         //generateConfigOption("world-settings.eject-from-vehicle-on-teleport.enabled", true);
         //generateConfigOption("world-settings.eject-from-vehicle-on-teleport.info", "Eject the player from a boat or minecart before teleporting them preventing cross world coordinate exploits.");
