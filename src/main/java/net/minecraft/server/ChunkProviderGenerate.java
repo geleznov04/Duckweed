@@ -135,7 +135,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
                 byte b2 = biomebase.q;
 
                 for (int k1 = 127; k1 >= 0; --k1) {
-                    int l1 = (k * 16 + l) * 128 + k1;
+                    int l1 = (l * 16 + k) * 128 + k1;
 
                     if (k1 <= 0 + this.j.nextInt(5)) {
                         abyte[l1] = (byte) Block.BEDROCK.id;
