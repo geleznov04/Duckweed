@@ -132,20 +132,32 @@ public class World implements IBlockAccess {
 
         if (this.worldData == null) {
             // Poseidon Ores seed start
+            long oresSeed = i, cavesSeed = i;
             if (PoseidonConfig.getInstance().getConfigBoolean("world.settings.ores-seed.enable", false)) {
                 final String seed = PoseidonConfig.getInstance().getConfigString("world.settings.ores-seed.value");
-                long oresSeed = new Random().nextLong();
                 if (!seed.isEmpty()) {
                     try {
                         oresSeed = Long.parseLong(seed);
                     } catch (NumberFormatException numberformatexception) {
                         oresSeed = seed.hashCode();
                     }
+                } else {
+                    oresSeed = new Random().nextLong();
                 }
-                this.worldData = new WorldData(i, oresSeed, s);
-            } else {
-            this.worldData = new WorldData(i, s);
             }
+            if (PoseidonConfig.getInstance().getConfigBoolean("world.settings.caves-seed.enable", false)) {
+                final String seed = PoseidonConfig.getInstance().getConfigString("world.settings.caves-seed.value");
+                if (!seed.isEmpty()) {
+                    try {
+                        cavesSeed = Long.parseLong(seed);
+                    } catch (NumberFormatException numberformatexception) {
+                        cavesSeed = seed.hashCode();
+                    }
+                } else {
+                    cavesSeed = new Random().nextLong();
+                }
+            }
+            this.worldData = new WorldData(i, oresSeed, cavesSeed, s);
             // Poseidon Ores seed end
             flag = true;
         } else {
@@ -2317,6 +2329,10 @@ public class World implements IBlockAccess {
     // Poseidon start
     public long getOresSeed() {
         return this.worldData.getOresSeed();
+    }
+
+    public long getCavesSeed() {
+        return this.worldData.getCavesSeed();
     }
     // Poseidon end
 

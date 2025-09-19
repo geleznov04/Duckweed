@@ -5,7 +5,6 @@ import java.util.List;
 public class WorldData {
 
     private long a;
-    private long oresSeed; // Poseidon
     private int b;
     private int c;
     private int d;
@@ -22,10 +21,13 @@ public class WorldData {
     private int m;
     private boolean n;
     private int o;
+    private long oresSeed; // Poseidon
+    private long cavesSeed; // Poseidon
 
     public WorldData(NBTTagCompound nbttagcompound) {
         this.a = nbttagcompound.getLong("RandomSeed");
         this.oresSeed = nbttagcompound.getLong("OresSeed"); // Poseidon
+        this.cavesSeed = nbttagcompound.getLong("CavesSeed"); // Poseidon
         this.b = nbttagcompound.e("SpawnX");
         this.c = nbttagcompound.e("SpawnY");
         this.d = nbttagcompound.e("SpawnZ");
@@ -53,10 +55,18 @@ public class WorldData {
         this.name = s;
     }
 
-    // Poseidon: New constructor for the 2nd seed
+    // Poseidon: New constructor for the 2nd and 3rd seeds
     public WorldData(long i, long oresSeed, String s) {
         this.a = i;
         this.oresSeed = oresSeed;
+        this.cavesSeed = i;
+        this.name = s;
+    }
+
+    public WorldData(long i, long oresSeed, long cavesSeed, String s) {
+        this.a = i;
+        this.oresSeed = oresSeed;
+        this.cavesSeed = cavesSeed;
         this.name = s;
     }
     // Poseidon end
@@ -64,6 +74,7 @@ public class WorldData {
     public WorldData(WorldData worlddata) {
         this.a = worlddata.a;
         this.oresSeed = worlddata.oresSeed; // Poseidon
+        this.cavesSeed = worlddata.cavesSeed; // Poseidon
         this.b = worlddata.b;
         this.c = worlddata.c;
         this.d = worlddata.d;
@@ -110,6 +121,7 @@ public class WorldData {
     private void a(NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
         nbttagcompound.setLong("RandomSeed", this.a);
         nbttagcompound.setLong("OresSeed", this.oresSeed); // Poseidon
+        nbttagcompound.setLong("CavesSeed", this.cavesSeed); // Poseidon
         nbttagcompound.a("SpawnX", this.b);
         nbttagcompound.a("SpawnY", this.c);
         nbttagcompound.a("SpawnZ", this.d);
@@ -156,6 +168,10 @@ public class WorldData {
 
     public long getOresSeed() {
         return this.oresSeed;
+    }
+
+    public long getCavesSeed() {
+        return this.cavesSeed;
     }
 
     // Poseidon end
