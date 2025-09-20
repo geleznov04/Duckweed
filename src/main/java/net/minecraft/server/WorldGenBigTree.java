@@ -294,7 +294,7 @@ public class WorldGenBigTree extends WorldGenerator {
                 aint3[b3] = MathHelper.floor((double) aint[b3] + (double) i * d1);
                 int k = this.c.getTypeId(aint3[0], aint3[1], aint3[2]);
 
-                if (k != 0 && k != 18) {
+                if ((k != 0 && k != 18) || aint3[1] >= 128) { // BigTrees cut fix
                     break;
                 }
             }
