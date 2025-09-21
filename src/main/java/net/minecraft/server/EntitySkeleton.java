@@ -5,6 +5,7 @@ import com.legacyminecraft.poseidon.PoseidonConfig;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 // CraftBukkit end
+import org.bukkit.craftbukkit.TrigMath; // Duckweed
 
 public class EntitySkeleton extends EntityMonster {
 
@@ -68,7 +69,7 @@ public class EntitySkeleton extends EntityMonster {
                 this.attackTicks = 30;
             }
 
-            this.yaw = (float) (Math.atan2(d1, d0) * 180.0D / 3.1415927410125732D) - 90.0F;
+            this.yaw = (float) (TrigMath.atan2(d1, d0) * 180.0D / 3.1415927410125732D) - 90.0F; // Duckweed - Math>TrigMath
             this.e = true;
         }
     }

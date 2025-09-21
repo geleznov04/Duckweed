@@ -4,6 +4,7 @@ package net.minecraft.server;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.event.entity.EntityTargetEvent;
 // CraftBukkit end
+import org.bukkit.craftbukkit.TrigMath; // Duckweed
 
 public class EntityGhast extends EntityFlying implements IMonster {
 
@@ -107,7 +108,7 @@ public class EntityGhast extends EntityFlying implements IMonster {
             double d6 = this.target.boundingBox.b + (double) (this.target.width / 2.0F) - (this.locY + (double) (this.width / 2.0F));
             double d7 = this.target.locZ - this.locZ;
 
-            this.K = this.yaw = -((float) Math.atan2(d5, d7)) * 180.0F / 3.1415927F;
+            this.K = this.yaw = -((float) TrigMath.atan2(d5, d7)) * 180.0F / 3.1415927F; // Duckweed - Math>TrigMath
             if (this.e(this.target)) {
                 if (this.f == 10) {
                     this.world.makeSound(this, "mob.ghast.charge", this.k(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
@@ -130,7 +131,7 @@ public class EntityGhast extends EntityFlying implements IMonster {
                 --this.f;
             }
         } else {
-            this.K = this.yaw = -((float) Math.atan2(this.motX, this.motZ)) * 180.0F / 3.1415927F;
+            this.K = this.yaw = -((float) TrigMath.atan2(this.motX, this.motZ)) * 180.0F / 3.1415927F; // Duckweed - Math>TrigMath
             if (this.f > 0) {
                 --this.f;
             }

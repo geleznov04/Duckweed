@@ -4,6 +4,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.craftbukkit.TrigMath; // Duckweed
 
 import java.util.List;
 
@@ -75,8 +76,10 @@ public class EntityFish extends Entity {
         this.motZ = d2;
         float f3 = MathHelper.a(d0 * d0 + d2 * d2);
 
-        this.lastYaw = this.yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
-        this.lastPitch = this.pitch = (float) (Math.atan2(d1, (double) f3) * 180.0D / 3.1415927410125732D);
+        // Duckweed start - Math>TrigMath
+        this.lastYaw = this.yaw = (float) (TrigMath.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
+        this.lastPitch = this.pitch = (float) (TrigMath.atan2(d1, (double) f3) * 180.0D / 3.1415927410125732D);
+        // Duckweed end
         this.i = 0;
     }
 
@@ -223,11 +226,13 @@ public class EntityFish extends Entity {
                 this.move(this.motX, this.motY, this.motZ);
                 float f1 = MathHelper.a(this.motX * this.motX + this.motZ * this.motZ);
 
-                this.yaw = (float) (Math.atan2(this.motX, this.motZ) * 180.0D / 3.1415927410125732D);
+                // Duckweed start - Math>TrigMath
+                this.yaw = (float) (TrigMath.atan2(this.motX, this.motZ) * 180.0D / 3.1415927410125732D);
 
-                for (this.pitch = (float) (Math.atan2(this.motY, (double) f1) * 180.0D / 3.1415927410125732D); this.pitch - this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
+                for (this.pitch = (float) (TrigMath.atan2(this.motY, (double) f1) * 180.0D / 3.1415927410125732D); this.pitch - this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
                     ;
                 }
+                // Duckweed end
 
                 while (this.pitch - this.lastPitch >= 180.0F) {
                     this.lastPitch += 360.0F;

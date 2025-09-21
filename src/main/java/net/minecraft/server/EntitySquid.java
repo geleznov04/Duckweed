@@ -1,6 +1,7 @@
 package net.minecraft.server;
 
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.craftbukkit.TrigMath; // Duckweed
 
 public class EntitySquid extends EntityWaterAnimal {
 
@@ -122,10 +123,12 @@ public class EntitySquid extends EntityWaterAnimal {
             }
 
             f = MathHelper.a(this.motX * this.motX + this.motZ * this.motZ);
-            this.K += (-((float) Math.atan2(this.motX, this.motZ)) * 180.0F / 3.1415927F - this.K) * 0.1F;
+            // Duckweed start - Math>TrigMath
+            this.K += (-((float) TrigMath.atan2(this.motX, this.motZ)) * 180.0F / 3.1415927F - this.K) * 0.1F;
             this.yaw = this.K;
             this.c += 3.1415927F * this.m * 1.5F;
-            this.a += (-((float) Math.atan2((double) f, this.motY)) * 180.0F / 3.1415927F - this.a) * 0.1F;
+            this.a += (-((float) TrigMath.atan2((double) f, this.motY)) * 180.0F / 3.1415927F - this.a) * 0.1F;
+            // Duckweed end
         } else {
             this.i = MathHelper.abs(MathHelper.sin(this.g)) * 3.1415927F * 0.25F;
             if (!this.Y) {

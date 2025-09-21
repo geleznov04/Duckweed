@@ -3,6 +3,7 @@ package net.minecraft.server;
 import org.bukkit.Location;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.vehicle.*;
+import org.bukkit.craftbukkit.TrigMath; // Duckweed
 
 import java.util.List;
 
@@ -525,7 +526,7 @@ public class EntityMinecart extends Entity implements IInventory {
             double d23 = this.lastZ - this.locZ;
 
             if (d22 * d22 + d23 * d23 > 0.0010D) {
-                this.yaw = (float) (Math.atan2(d23, d22) * 180.0D / 3.141592653589793D);
+                this.yaw = (float) (TrigMath.atan2(d23, d22) * 180.0D / 3.141592653589793D); // Duckweed - Math>TrigMath
                 if (this.i) {
                     this.yaw += 180.0F;
                 }

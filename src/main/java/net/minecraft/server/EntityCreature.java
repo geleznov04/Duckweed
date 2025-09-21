@@ -124,7 +124,7 @@ public class EntityCreature extends EntityLiving {
                     double d5 = this.target.locZ - this.locZ;
                     float f4 = this.yaw;
 
-                    this.yaw = (float) (Math.atan2(d5, d4) * 180.0D / 3.1415927410125732D) - 90.0F;
+                    this.yaw = (float) (TrigMath.atan2(d5, d4) * 180.0D / 3.1415927410125732D) - 90.0F; // Duckweed - Math>TrigMath
                     f3 = (f4 - this.yaw + 90.0F) * 3.1415927F / 180.0F;
                     this.az = -MathHelper.sin(f3) * this.aA * 1.0F;
                     this.aA = MathHelper.cos(f3) * this.aA * 1.0F;
