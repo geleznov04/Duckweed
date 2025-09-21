@@ -7,7 +7,8 @@ import java.util.Random;
 public class WorldGenBigTree extends WorldGenerator {
 
     static final byte[] a = new byte[] { (byte) 2, (byte) 0, (byte) 0, (byte) 1, (byte) 2, (byte) 1};
-    Random b = new Random();
+    private static final Random SHARED_RANDOM = new Random(); // Duckweed - SHARED_RANDOM GenBigTree
+    Random b = SHARED_RANDOM; // Duckweed - SHARED_RANDOM GenBigTree
     BlockChangeDelegate c; // CraftBukkit
     int[] d = new int[] { 0, 0, 0};
     int e = 0;
