@@ -1,39 +1,35 @@
 package org.bukkit.craftbukkit.util;
 
-import jline.ConsoleReader;
 import org.bukkit.craftbukkit.Main;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TerminalConsoleHandler extends ConsoleHandler {
-    private final ConsoleReader reader;
+    // Duckweed start - jline update
+    private final org.jline.reader.LineReader reader;
 
-    public TerminalConsoleHandler(ConsoleReader reader) {
+    public TerminalConsoleHandler(org.jline.reader.LineReader reader) {
         super();
+        if (Main.useJline) {
+            this.setOutputStream(new JLineOutputStream());
+        }
         this.reader = reader;
     }
 
-    @Override
-    public synchronized void flush() {
-        try {
-            if (Main.useJline) {
-                reader.printString(ConsoleReader.RESET_LINE + "");
-                reader.flushConsole();
-                super.flush();
-                try {
-                    reader.drawLine();
-                } catch (Throwable ex) {
-                    reader.getCursorBuffer().clearBuffer();
-                }
-                reader.flushConsole();
-            } else {
-                super.flush();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(TerminalConsoleHandler.class.getName()).log(Level.SEVERE, null, ex);
+    private class JLineOutputStream extends java.io.ByteArrayOutputStream {
+        private JLineOutputStream() {
+            super(1024);
+        }
+
+        @Override
+        public synchronized void flush() throws IOException {
+            reader.printAbove(this.toString("UTF-8"));
+            this.count = 0;
         }
     }
+    // Duckweed end
 }

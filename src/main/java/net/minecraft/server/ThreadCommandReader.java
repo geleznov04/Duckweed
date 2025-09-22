@@ -11,11 +11,9 @@ public class ThreadCommandReader extends Thread {
     }
 
     public void run() {
-        jline.ConsoleReader bufferedreader = this.server.reader; // CraftBukkit
+        org.jline.reader.LineReader bufferedreader = this.server.reader; // Duckweed - jline update
         String s = null;
 
-        try {
-            // CraftBukkit start - JLine disabling compatibility
             while (!this.server.isStopped && MinecraftServer.isRunning(this.server)) {
                 if (org.bukkit.craftbukkit.Main.useJline) {
                     s = bufferedreader.readLine(">", null);
@@ -27,9 +25,5 @@ public class ThreadCommandReader extends Thread {
                 }
                 // CraftBukkit end
             }
-        } catch (IOException ioexception) {
-            // CraftBukkit
-            java.util.logging.Logger.getLogger(ThreadCommandReader.class.getName()).log(java.util.logging.Level.SEVERE, null, ioexception);
-        }
     }
 }

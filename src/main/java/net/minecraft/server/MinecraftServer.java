@@ -8,7 +8,6 @@ import com.legacyminecraft.poseidon.utility.PerformanceStatistic;
 import com.legacyminecraft.poseidon.utility.PoseidonVersionChecker;
 import com.projectposeidon.johnymuffin.UUIDManager;
 import com.legacyminecraft.poseidon.watchdog.WatchDogThread;
-import jline.ConsoleReader;
 import joptsimple.OptionSet;
 import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
@@ -64,7 +63,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
     public CraftServer server;
     public OptionSet options;
     public ColouredConsoleSender console;
-    public ConsoleReader reader;
+    public org.jline.reader.LineReader reader; // Duckweed - jline update
     public static int currentTick;
     // CraftBukkit end
 
@@ -77,15 +76,13 @@ public class MinecraftServer implements Runnable, ICommandListener {
     public MinecraftServer(OptionSet options) { // CraftBukkit - adds argument OptionSet
         new ThreadSleepForever(this);
 
-        // CraftBukkit start
+        // Duckweed start - jline update
         this.options = options;
-        try {
-            this.reader = new ConsoleReader();
-        } catch (IOException ex) {
-            Logger.getLogger(MinecraftServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.reader = org.jline.reader.LineReaderBuilder.builder()
+                .appName("Duckweed")
+                .build();
         Runtime.getRuntime().addShutdownHook(new ServerShutdownThread(this));
-        // CraftBukkit end
+        // Duckweed end
     }
 
     private boolean init() throws UnknownHostException { // CraftBukkit - added throws UnknownHostException

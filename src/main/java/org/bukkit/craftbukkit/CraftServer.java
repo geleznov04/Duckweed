@@ -9,7 +9,6 @@ import com.legacyminecraft.poseidon.PoseidonConfig;
 import com.legacyminecraft.poseidon.PoseidonPlugin;
 import com.legacyminecraft.poseidon.PoseidonServer;
 import com.legacyminecraft.poseidon.utility.PoseidonVersionChecker;
-import jline.ConsoleReader;
 import net.minecraft.server.*;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -642,7 +641,7 @@ public final class CraftServer implements Server {
         return MinecraftServer.log;
     }
 
-    public ConsoleReader getReader() {
+    public org.jline.reader.LineReader getReader() { // Duckweed - jline update
         return console.reader;
     }
 
