@@ -38,7 +38,7 @@ public class StopCommand extends VanillaCommand {
         Bukkit.getScheduler().scheduleSyncDelayedTask(new PoseidonPlugin(), () -> {
             Command.broadcastCommandMessage(sender, "Stopping the server..");
             Bukkit.shutdown();
-        }, 100);
+        }, 20);
 
         return true;
     }
